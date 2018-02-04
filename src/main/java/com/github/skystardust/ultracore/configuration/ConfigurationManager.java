@@ -17,10 +17,12 @@ import java.util.function.Supplier;
 public class ConfigurationManager {
     private Plugin ownPlugin;
     private Map<String, Object> configurationModels;
+    private Map<String,Object> data;
 
     public ConfigurationManager(Plugin ownPlugin) {
         this.ownPlugin = ownPlugin;
         this.configurationModels = new HashMap<>();
+        this.data = new HashMap<>();
     }
 
     public ConfigurationManager registerConfiguration(String name, Supplier o) {
@@ -33,7 +35,6 @@ public class ConfigurationManager {
             ownPlugin.getDataFolder().mkdirs();
         }
         UltraCore.sendMessage(Bukkit.getConsoleSender(), "正在初始化 " + ownPlugin.getName() + " 的配置文件!");
-        HashMap<String, Object> objectObjectHashMap = Maps.newHashMap();
         configurationModels.forEach((fileName, result) -> {
             UltraCore.sendMessage(Bukkit.getConsoleSender(), "初始化配置文件 " + fileName + " 中,请稍候..!");
             File file = new File(ownPlugin.getDataFolder(), fileName + ".conf");
@@ -43,13 +44,23 @@ public class ConfigurationManager {
                 UltraCore.sendMessage(Bukkit.getConsoleSender(), "创建 " + fileName + " 的模板完成!");
             }
             UltraCore.sendMessage(Bukkit.getConsoleSender(), "正在读取配置文件 " + fileName + " 的现有存档.");
-            objectObjectHashMap.put(fileName, FileUtils.GSON.fromJson(FileUtils.readFileContent(file), result.getClass()));
+            data.put(fileName, FileUtils.GSON.fromJson(FileUtils.readFileContent(file), result.getClass()));
             UltraCore.sendMessage(Bukkit.getConsoleSender(), "读取配置文件 " + fileName + " 已成功.");
         });
         UltraCore.sendMessage(Bukkit.getConsoleSender(), "初始化 " + ownPlugin.getName() + " 已全部成功!");
         return ConfigurationClassSetter.builder()
                 .classToSet(clazz)
                 .classInstance(o)
-                .configurationData(objectObjectHashMap).build();
+                .configurationData(data).build();
+    }
+    public void saveFile(String name){
+        Object o = configurationModels.get(name);
+        if (o!=null){
+            File file = new File(ownPlugin.getDataFolder(), name + ".conf");
+            FileUtils.writeFileContent(file,FileUtils.GSON.toJson(data.get(name)));
+        }
+    }
+    public void saveFiles(){
+        data.forEach((key,value)->saveFile(key));
     }
 }
