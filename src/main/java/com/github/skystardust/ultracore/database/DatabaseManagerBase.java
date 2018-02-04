@@ -40,7 +40,7 @@ public class DatabaseManagerBase {
     }
 
     public static SQLConfiguration setupDatabase(Plugin plugin, String configurationFileName) throws ConfigurationException {
-        UltraCore.getUltraCore().getLogger().info("开始初始化 " + plugin.getName() + "配置文件!");
+        UltraCore.getUltraCore().getLogger().info("开始初始化 " + plugin.getName() + " 的配置文件!");
         try {
             if (!plugin.getDataFolder().exists()) {
                 plugin.getDataFolder().mkdirs();

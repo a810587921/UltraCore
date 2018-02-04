@@ -17,6 +17,10 @@ public final class UltraCore extends JavaPlugin {
     @Getter
     private static UltraCore ultraCore;
 
+    public static void sendMessage(CommandSender commandSender, String message) {
+        commandSender.sendMessage("[UltraCore] " + message);
+    }
+
     @Override
     public void onLoad() {
         UltraCore.ultraCore = this;
@@ -68,9 +72,5 @@ public final class UltraCore extends JavaPlugin {
             }
             return true;
         });
-    }
-
-    private void sendMessage(CommandSender commandSender, String message) {
-        commandSender.sendMessage("[UltraCore] " + message);
     }
 }
