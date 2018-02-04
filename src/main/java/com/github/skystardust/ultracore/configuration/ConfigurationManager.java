@@ -7,6 +7,7 @@ import lombok.Data;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
 
+import javax.annotation.Nullable;
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
@@ -27,7 +28,7 @@ public class ConfigurationManager {
         return this;
     }
 
-    public Map<String, Object> init() {
+    public ConfigurationClassSetter init(Class clazz, @Nullable Object o) {
         if (!ownPlugin.getDataFolder().exists()) {
             ownPlugin.getDataFolder().mkdirs();
         }
@@ -45,6 +46,10 @@ public class ConfigurationManager {
             objectObjectHashMap.put(fileName, FileUtils.GSON.fromJson(FileUtils.readFileContent(file), result.getClass()));
             UltraCore.sendMessage(Bukkit.getConsoleSender(), "读取配置文件 " + fileName + " 已成功.");
         });
-        return objectObjectHashMap;
+        UltraCore.sendMessage(Bukkit.getConsoleSender(), "初始化 " + ownPlugin.getName() + " 已全部成功!");
+        return ConfigurationClassSetter.builder()
+                .classToSet(clazz)
+                .classInstance(o)
+                .configurationData(objectObjectHashMap).build();
     }
 }
