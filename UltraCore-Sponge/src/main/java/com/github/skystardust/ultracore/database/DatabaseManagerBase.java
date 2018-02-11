@@ -13,11 +13,11 @@ import com.github.skystardust.ultracore.exceptions.DatabaseInitException;
 import com.github.skystardust.ultracore.utils.FileUtils;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
-import org.bukkit.plugin.Plugin;
+import org.spongepowered.api.plugin.PluginContainer;
 
-import javax.annotation.Nonnull;
 import java.io.File;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -29,38 +29,30 @@ public class DatabaseManagerBase {
     private EbeanServer ebeanServer;
     private ExecutorService executorService;
 
-    private Plugin ownerPlugin;
+    private PluginContainer ownerPlugin;
     private Class<?> modelClass;
     private String name;
+    private String configurationFileName;
 
-    private DatabaseManagerBase(Plugin plugin, SQLConfiguration sqlConfiguration) {
+    private DatabaseManagerBase(PluginContainer plugin, SQLConfiguration sqlConfiguration, String configurationFileName) {
         this.ownerPlugin = plugin;
         this.sqlConfiguration = sqlConfiguration;
+        this.configurationFileName = configurationFileName;
     }
 
-    private DatabaseManagerBase(Builder builder) {
-        setSqlConfiguration(builder.sqlConfiguration);
-        setOwnerPlugin(builder.ownerPlugin);
-        setModelClass(builder.modelClass);
-        setName(builder.name);
-    }
-
-    public DatabaseManagerBase openConnection() throws DatabaseInitException {
-        openConnection0(modelClass,name);
-        return this;
-    }
-
-    public static SQLConfiguration setupDatabase(Plugin plugin) throws ConfigurationException {
+    public static SQLConfiguration setupDatabase(PluginContainer plugin, String configurationFileName) throws ConfigurationException {
         UltraCore.getUltraCore().getLogger().info("开始初始化 " + plugin.getName() + " 的配置文件!");
         try {
-            if (!plugin.getDataFolder().exists()) {
-                plugin.getDataFolder().mkdirs();
+            File pluginDataFolder = getPluginDataFolder(plugin);
+            if (!pluginDataFolder.exists()) {
+                pluginDataFolder.mkdirs();
             }
-            File sqlConfig = new File(plugin.getDataFolder(), "database.conf");
+            File sqlConfig = new File(pluginDataFolder, configurationFileName);
             if (!sqlConfig.exists()) {
                 FileUtils.writeFileContent(sqlConfig, FileUtils.GSON.toJson(
                         SQLConfiguration.newBuilder()
-                                .withUrl("jdbc:mysql://localhost:3306/database").withDriver("com.mysql.jdbc.Driver")
+                                .withUrl("jdbc:mysql://localhost:3306/database")
+                                .withDriver("com.mysql.cj.jdbc.Driver")
                                 .withUsername("root")
                                 .withPassword("pwd")
                                 .build()
@@ -71,14 +63,16 @@ public class DatabaseManagerBase {
             throw new ConfigurationException(e.getMessage(), e.getCause());
         }
     }
-
-    public static DatabaseManagerBase createDatabaseManager(Plugin plugin, SQLConfiguration sqlConfiguration, Class modelClass, String name) throws DatabaseInitException {
-        UltraCore.getUltraCore().getLogger().info("开始初始化 " + plugin.getName() + " 的 " + name + " 数据库!");
-        return new DatabaseManagerBase(plugin, sqlConfiguration).openConnection0(modelClass, name);
+    public static File getPluginDataFolder(PluginContainer pluginContainer){
+        File ultraCore = new File("./", "UltraCore");
+        if (!ultraCore.exists()){
+            ultraCore.mkdirs();
+        }
+        return new File(ultraCore,pluginContainer.getName());
     }
-
-    public static Builder newBuilder() {
-        return new Builder();
+    public static DatabaseManagerBase createDatabaseManager(PluginContainer plugin, SQLConfiguration sqlConfiguration, String configurationFileName, Class modelClass, String name) throws DatabaseInitException {
+        UltraCore.getUltraCore().getLogger().info("开始初始化 " + plugin.getName() + " 的 " + name + " 数据库!");
+        return new DatabaseManagerBase(plugin, sqlConfiguration, configurationFileName).openConnection0(modelClass, name);
     }
 
     private DatabaseManagerBase openConnection0(Class<?> modelClass, String name) throws DatabaseInitException {
@@ -117,46 +111,7 @@ public class DatabaseManagerBase {
     }
 
     public DatabaseManagerBase reloadDatabase() throws ConfigurationException, DatabaseInitException {
-        SQLConfiguration sqlConfiguration = DatabaseManagerBase.setupDatabase(ownerPlugin);
-        return DatabaseManagerBase.createDatabaseManager(ownerPlugin, sqlConfiguration, modelClass, name);
-    }
-
-    public static final class Builder {
-        private SQLConfiguration sqlConfiguration;
-        private Plugin ownerPlugin;
-        private Class<?> modelClass;
-        private String name;
-
-        private Builder() {
-        }
-
-        @Nonnull
-        public Builder withSqlConfiguration(@Nonnull SQLConfiguration val) {
-            sqlConfiguration = val;
-            return this;
-        }
-
-        @Nonnull
-        public Builder withOwnerPlugin(@Nonnull Plugin val) {
-            ownerPlugin = val;
-            return this;
-        }
-
-        @Nonnull
-        public Builder withModelClass(@Nonnull Class<?> val) {
-            modelClass = val;
-            return this;
-        }
-
-        @Nonnull
-        public Builder withName(@Nonnull String val) {
-            name = val;
-            return this;
-        }
-
-        @Nonnull
-        public DatabaseManagerBase build() {
-            return new DatabaseManagerBase(this);
-        }
+        SQLConfiguration sqlConfiguration = DatabaseManagerBase.setupDatabase(ownerPlugin, configurationFileName);
+        return DatabaseManagerBase.createDatabaseManager(ownerPlugin, sqlConfiguration, configurationFileName, modelClass, name);
     }
 }
