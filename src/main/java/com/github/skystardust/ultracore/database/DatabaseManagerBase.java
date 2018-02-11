@@ -15,6 +15,7 @@ import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import lombok.Getter;
 import lombok.Setter;
+import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.Plugin;
 
 import javax.annotation.Nonnull;
@@ -43,6 +44,10 @@ public class DatabaseManagerBase {
         setOwnerPlugin(builder.ownerPlugin);
         setModelClass(builder.modelClass);
         setName(builder.name);
+    }
+
+    public void sendMessage(CommandSender commandSender,String string){
+        commandSender.sendMessage("§a["+ownerPlugin.getName()+"]: §b"+string);
     }
 
     public DatabaseManagerBase openConnection() throws DatabaseInitException {
