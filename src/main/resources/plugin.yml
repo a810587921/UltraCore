@@ -1,7 +1,0 @@
-name: UltraCore
-version: ${project.version}
-main: com.github.skystardust.ultracore.UltraCore
-authors: [SkyStardust]
-load: Startup
-commands:
- uc:

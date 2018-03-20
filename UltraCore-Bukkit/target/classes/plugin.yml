@@ -1,0 +1,7 @@
+name: UltraCore
+version: 1.6-SNAPSHOT
+main: com.github.skystardust.ultracore.UltraCore
+authors: [SkyStardust]
+load: Startup
+commands:
+ uc:
