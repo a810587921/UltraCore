@@ -1,6 +1,6 @@
 package com.github.skystardust.ultracore.core.configuration;
 
-import com.github.skystardust.ultracore.core.database.PluginInstance;
+import com.github.skystardust.ultracore.core.PluginInstance;
 import com.github.skystardust.ultracore.core.utils.FileUtils;
 import lombok.Data;
 

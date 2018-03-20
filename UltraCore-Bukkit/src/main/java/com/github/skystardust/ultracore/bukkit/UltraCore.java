@@ -2,7 +2,7 @@ package com.github.skystardust.ultracore.bukkit;
 
 import com.github.skystardust.ultracore.core.database.DatabaseListenerRegistry;
 import com.github.skystardust.ultracore.core.database.DatabaseRegistry;
-import com.github.skystardust.ultracore.core.database.PluginInstance;
+import com.github.skystardust.ultracore.core.PluginInstance;
 import com.github.skystardust.ultracore.core.exceptions.ConfigurationException;
 import com.github.skystardust.ultracore.core.exceptions.DatabaseInitException;
 import lombok.Getter;

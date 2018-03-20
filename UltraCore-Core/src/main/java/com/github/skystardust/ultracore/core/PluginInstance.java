@@ -1,4 +1,4 @@
-package com.github.skystardust.ultracore.core.database;
+package com.github.skystardust.ultracore.core;
 
 import java.io.File;
 import java.util.logging.Logger;
