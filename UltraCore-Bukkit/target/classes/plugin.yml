@@ -1,6 +1,6 @@
 name: UltraCore
-version: 1.6-SNAPSHOT
-main: com.github.skystardust.ultracore.UltraCore
+version: 2.0-SNAPSHOT
+main: com.github.skystardust.ultracore.bukkit.UltraCore
 authors: [SkyStardust]
 load: Startup
 commands:

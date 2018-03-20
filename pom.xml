@@ -6,7 +6,7 @@
 
     <groupId>com.github.skystardust</groupId>
     <artifactId>UltraCore-Parent</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>2.0-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <name>UltraCore-Parent</name>
@@ -16,7 +16,18 @@
         <module>UltraCore-Core</module>
         <module>UltraCore-Nukkit</module>
     </modules>
-
+    <distributionManagement>
+        <repository>
+            <id>nexus-releases</id>
+            <name>Nexus Release Repository</name>
+            <url>http://work.ymmclt.com:8081/repository/maven-releases/</url>
+        </repository>
+        <snapshotRepository>
+            <id>nexus-snapshots</id>
+            <name>Nexus Snapshot Repository</name>
+            <url>http://work.ymmclt.com:8081/repository/maven-snapshots/</url>
+        </snapshotRepository>
+    </distributionManagement>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
