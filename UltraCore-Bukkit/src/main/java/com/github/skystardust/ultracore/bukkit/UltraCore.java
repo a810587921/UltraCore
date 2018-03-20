@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 
-public final class UltraCore extends JavaPlugin implements PluginInstance{
+public final class UltraCore extends JavaPlugin implements PluginInstance {
     @Getter
     private static UltraCore ultraCore;
 

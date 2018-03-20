@@ -14,6 +14,7 @@ import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import lombok.Getter;
 import lombok.Setter;
+
 import javax.annotation.Nonnull;
 import java.io.File;
 import java.util.concurrent.ExecutorService;
@@ -40,11 +41,6 @@ public class DatabaseManagerBase {
         setOwnerPlugin(builder.ownerPlugin);
         setModelClass(builder.modelClass);
         setName(builder.name);
-    }
-
-    public DatabaseManagerBase openConnection() throws DatabaseInitException {
-        openConnection0(modelClass,name);
-        return this;
     }
 
     public static SQLConfiguration setupDatabase(PluginInstance plugin) throws ConfigurationException {
@@ -76,6 +72,11 @@ public class DatabaseManagerBase {
 
     public static Builder newBuilder() {
         return new Builder();
+    }
+
+    public DatabaseManagerBase openConnection() throws DatabaseInitException {
+        openConnection0(modelClass, name);
+        return this;
     }
 
     private DatabaseManagerBase openConnection0(Class<?> modelClass, String name) throws DatabaseInitException {
