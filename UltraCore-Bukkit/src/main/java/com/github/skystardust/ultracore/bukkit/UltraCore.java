@@ -1,8 +1,8 @@
 package com.github.skystardust.ultracore.bukkit;
 
+import com.github.skystardust.ultracore.core.PluginInstance;
 import com.github.skystardust.ultracore.core.database.DatabaseListenerRegistry;
 import com.github.skystardust.ultracore.core.database.DatabaseRegistry;
-import com.github.skystardust.ultracore.core.PluginInstance;
 import com.github.skystardust.ultracore.core.exceptions.ConfigurationException;
 import com.github.skystardust.ultracore.core.exceptions.DatabaseInitException;
 import lombok.Getter;
@@ -13,6 +13,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.logging.Logger;
 
 public final class UltraCore extends JavaPlugin implements PluginInstance {
     @Getter
@@ -73,5 +74,10 @@ public final class UltraCore extends JavaPlugin implements PluginInstance {
             }
             return true;
         });
+    }
+
+    @Override
+    public Logger getPluginLogger() {
+        return getLogger();
     }
 }

@@ -31,20 +31,20 @@ public class ConfigurationManager {
         if (!ownPlugin.getDataFolder().exists()) {
             ownPlugin.getDataFolder().mkdirs();
         }
-        ownPlugin.getLogger().info("正在初始化 " + ownPlugin.getName() + " 的配置文件!");
+        ownPlugin.getPluginLogger().info("正在初始化 " + ownPlugin.getName() + " 的配置文件!");
         configurationModels.forEach((fileName, result) -> {
-            ownPlugin.getLogger().info("初始化配置文件 " + fileName + " 中,请稍候..!");
+            ownPlugin.getPluginLogger().info("初始化配置文件 " + fileName + " 中,请稍候..!");
             File file = new File(ownPlugin.getDataFolder(), fileName + ".conf");
             if (!file.exists()) {
-                ownPlugin.getLogger().info("正在创建配置文件 " + fileName + " 的模板.");
+                ownPlugin.getPluginLogger().info("正在创建配置文件 " + fileName + " 的模板.");
                 FileUtils.writeFileContent(file, FileUtils.GSON.toJson(result));
-                ownPlugin.getLogger().info("创建 " + fileName + " 的模板完成!");
+                ownPlugin.getPluginLogger().info("创建 " + fileName + " 的模板完成!");
             }
-            ownPlugin.getLogger().info("正在读取配置文件 " + fileName + " 的现有存档.");
+            ownPlugin.getPluginLogger().info("正在读取配置文件 " + fileName + " 的现有存档.");
             data.put(fileName, FileUtils.GSON.fromJson(FileUtils.readFileContent(file), result.getClass()));
-            ownPlugin.getLogger().info("读取配置文件 " + fileName + " 已成功.");
+            ownPlugin.getPluginLogger().info("读取配置文件 " + fileName + " 已成功.");
         });
-        ownPlugin.getLogger().info("初始化 " + ownPlugin.getName() + " 已全部成功!");
+        ownPlugin.getPluginLogger().info("初始化 " + ownPlugin.getName() + " 已全部成功!");
         return ConfigurationClassSetter.builder()
                 .classToSet(clazz)
                 .classInstance(o)

@@ -4,7 +4,7 @@ import java.io.File;
 import java.util.logging.Logger;
 
 public interface PluginInstance {
-    Logger getLogger();
+    Logger getPluginLogger();
 
     String getName();
 

@@ -45,7 +45,7 @@ public class DatabaseManagerBase {
     }
 
     public static SQLConfiguration setupDatabase(PluginInstance plugin) throws ConfigurationException {
-        plugin.getLogger().info("开始初始化 " + plugin.getName() + " 的配置文件!");
+        plugin.getPluginLogger().info("开始初始化 " + plugin.getName() + " 的配置文件!");
         try {
             if (!plugin.getDataFolder().exists()) {
                 plugin.getDataFolder().mkdirs();
@@ -67,7 +67,7 @@ public class DatabaseManagerBase {
     }
 
     public static DatabaseManagerBase createDatabaseManager(PluginInstance plugin, SQLConfiguration sqlConfiguration, Class modelClass, String name) throws DatabaseInitException {
-        plugin.getLogger().info("开始初始化 " + plugin.getName() + " 的 " + name + " 数据库!");
+        plugin.getPluginLogger().info("开始初始化 " + plugin.getName() + " 的 " + name + " 数据库!");
         return new DatabaseManagerBase(plugin, sqlConfiguration).openConnection0(modelClass, name);
     }
 

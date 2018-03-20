@@ -1,6 +1,6 @@
 name: UltraCore
 version: ${project.version}
-main: com.github.skystardust.ultracore.UltraCore
+main: com.github.skystardust.ultracore.bukkit.UltraCore
 authors: [SkyStardust]
 load: Startup
 commands:
