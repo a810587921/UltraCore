@@ -1,0 +1,7 @@
+name: UltraCore
+version: ${project.version}
+main: UltraCore
+authors: [SkyStardust]
+load: Startup
+commands:
+ uc:

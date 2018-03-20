@@ -13,6 +13,7 @@
 
     <modules>
         <module>UltraCore-Bukkit</module>
+        <module>UltraCore-Core</module>
     </modules>
 
     <properties>
