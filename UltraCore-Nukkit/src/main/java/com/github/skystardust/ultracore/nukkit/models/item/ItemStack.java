@@ -2,7 +2,9 @@ package com.github.skystardust.ultracore.nukkit.models.item;
 
 import cn.nukkit.item.Item;
 import com.google.gson.Gson;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @AllArgsConstructor

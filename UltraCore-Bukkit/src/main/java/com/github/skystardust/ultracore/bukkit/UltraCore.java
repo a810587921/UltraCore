@@ -1,5 +1,7 @@
 package com.github.skystardust.ultracore.bukkit;
 
+import com.github.skystardust.ultracore.bukkit.commands.MainCommandSpec;
+import com.github.skystardust.ultracore.bukkit.commands.SubCommandSpec;
 import com.github.skystardust.ultracore.core.PluginInstance;
 import com.github.skystardust.ultracore.core.database.DatabaseListenerRegistry;
 import com.github.skystardust.ultracore.core.database.DatabaseRegistry;
@@ -30,6 +32,36 @@ public final class UltraCore extends JavaPlugin implements PluginInstance {
 
     @Override
     public void onEnable() {
+        MainCommandSpec.newBuilder()
+                .addAlias("test")
+                .addAlias("t")
+                .withDescription("test command")
+                .withCommandSpecExecutor((commandSender, args) -> {
+                    commandSender.sendMessage("test command execute");
+                    return true;
+                })
+                .childCommandSpec(SubCommandSpec.newBuilder()
+                        .addAlias("arg1")
+                        .addAlias("a1")
+                        .withDescription("test arg1")
+                        .withPermission("permission")
+                        .childCommandSpec(SubCommandSpec.newBuilder()
+                                .addAlias("arg2")
+                                .addAlias("a2")
+                                .withDescription("test arg2")
+                                .withPermission("permission")
+                                .withCommandSpecExecutor((commandSender, args) -> {
+                                    commandSender.sendMessage("test args2");
+                                    return true;
+                                })
+                                .build())
+                        .withCommandSpecExecutor((commandSender, args) -> {
+                            commandSender.sendMessage("test args1");
+                            return true;
+                        })
+                        .build())
+                .build()
+                .register();
         PluginCommand uc = getServer().getPluginCommand("uc");
         uc.setTabCompleter((sender, command, alias, args) -> {
             if (args.length == 1) {
