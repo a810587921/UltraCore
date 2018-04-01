@@ -17,6 +17,14 @@ public class VecLoc3D {
     private float yaw;
     private float pitch;
 
+    public VecLoc3D(String world){
+        this(world,0,0,0);
+    }
+
+    public VecLoc3D(String world,double x,double y,double z){
+        this(world,0,0,0,0,0);
+    }
+
     public static VecLoc3D valueOf(Location location) {
         return new VecLoc3D(location.getWorld().getName(), location.getX(), location.getY(), location.getZ(), location.getYaw(), location.getPitch());
     }

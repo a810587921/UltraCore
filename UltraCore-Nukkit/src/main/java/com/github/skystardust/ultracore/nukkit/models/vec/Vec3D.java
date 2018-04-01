@@ -28,4 +28,8 @@ public class Vec3D {
     public Location toLocation() {
         return new Location(x, y, z, yaw, pitch, Server.getInstance().getLevelByName(level));
     }
+
+    public static Vec3D valueOf(Location location){
+        return new Vec3D(location.getX(),location.getY(),location.getZ(),location.getLevel().getName());
+    }
 }

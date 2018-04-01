@@ -20,4 +20,8 @@ public class ItemStack {
     public Item toItem() {
         return new Item(id);
     }
+
+    public static ItemStack valueOf(Item item){
+        return new ItemStack(item.getId());
+    }
 }
