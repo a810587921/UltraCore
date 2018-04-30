@@ -12,6 +12,10 @@ import lombok.NoArgsConstructor;
 public class ItemStack {
     private int id;
 
+    public static ItemStack valueOf(Item item) {
+        return new ItemStack(item.getId());
+    }
+
     @Override
     public String toString() {
         return new Gson().toJson(this);
@@ -19,9 +23,5 @@ public class ItemStack {
 
     public Item toItem() {
         return new Item(id);
-    }
-
-    public static ItemStack valueOf(Item item){
-        return new ItemStack(item.getId());
     }
 }

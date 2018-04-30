@@ -15,6 +15,7 @@
         <module>UltraCore-Bukkit</module>
         <module>UltraCore-Core</module>
         <module>UltraCore-Nukkit</module>
+        <module>UltraCore-BungeeCord</module>
     </modules>
     <distributionManagement>
         <repository>

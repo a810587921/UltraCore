@@ -1,11 +1,12 @@
-package com.github.skystardust.ultracore.nukkit.commands;
+package com.github.skystardust.ultracore.bungeecord.commands;
 
-import cn.nukkit.Server;
-import cn.nukkit.command.Command;
-import cn.nukkit.command.CommandSender;
+import com.github.skystardust.ultracore.bungeecord.UltraCore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
+import net.md_5.bungee.api.CommandSender;
+import net.md_5.bungee.api.ProxyServer;
+import net.md_5.bungee.api.plugin.Command;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -35,15 +36,15 @@ public class MainCommandSpec extends CommandSpec {
     public void register() {
         Objects.requireNonNull(commandSpecExecutor);
         Objects.requireNonNull(aliases);
-        Command command = new Command(aliases.get(0), description) {
+        Command command = new Command(aliases.get(0), permission, aliases.toArray(new String[0])) {
             @Override
-            public boolean execute(CommandSender commandSender, String s, String[] strings) {
+            public void execute(CommandSender commandSender, String[] strings) {
                 if (permission != null) {
                     if (!commandSender.hasPermission(permission)) {
-                        return false;
+                        return;
                     }
                 }
-                return childMainCommandSpecList.stream()
+                childMainCommandSpecList.stream()
                         .filter(subCommandSpec -> strings.length > 0)
                         .filter(subCommandSpec -> subCommandSpec.getAliases().contains(strings[0]))
                         .findFirst()
@@ -51,7 +52,7 @@ public class MainCommandSpec extends CommandSpec {
                         .orElseGet(() -> commandSpecExecutor.executeCommand(commandSender, strings));
             }
         };
-        Server.getInstance().getCommandMap().register(aliases.get(0), command);
+        ProxyServer.getInstance().getPluginManager().registerCommand(UltraCore.getUltraCore(), command);
     }
 
     public static final class Builder {

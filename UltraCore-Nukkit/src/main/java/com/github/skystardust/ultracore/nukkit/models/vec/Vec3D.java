@@ -25,11 +25,11 @@ public class Vec3D {
         this(x, y, z, 0, 0, level);
     }
 
-    public Location toLocation() {
-        return new Location(x, y, z, yaw, pitch, Server.getInstance().getLevelByName(level));
+    public static Vec3D valueOf(Location location) {
+        return new Vec3D(location.getX(), location.getY(), location.getZ(), location.getLevel().getName());
     }
 
-    public static Vec3D valueOf(Location location){
-        return new Vec3D(location.getX(),location.getY(),location.getZ(),location.getLevel().getName());
+    public Location toLocation() {
+        return new Location(x, y, z, yaw, pitch, Server.getInstance().getLevelByName(level));
     }
 }
