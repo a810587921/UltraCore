@@ -1,4 +1,4 @@
-name: UltraCore BungeeCord
+name: UltraCore
 version: ${project.version}
 main: com.github.skystardust.ultracore.bungeecord.UltraCore
 author: SkyStardust

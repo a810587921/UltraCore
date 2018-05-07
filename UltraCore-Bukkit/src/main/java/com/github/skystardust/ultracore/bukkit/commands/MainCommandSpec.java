@@ -137,6 +137,9 @@ public class MainCommandSpec extends CommandSpec {
             if (childMainCommandSpecList == null) {
                 childMainCommandSpecList = new ArrayList<>();
             }
+            if (description == null) {
+                description = "No description";
+            }
             return new MainCommandSpec(this);
         }
     }
